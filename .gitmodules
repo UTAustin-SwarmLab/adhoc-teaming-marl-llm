@@ -1,0 +1,3 @@
+[submodule "adhoc-teaming/envs/firegym"]
+	path = adhoc-teaming/envs/firegym
+	url = https://github.com/UTAustin-SwarmLab/GoalNetRL.git
