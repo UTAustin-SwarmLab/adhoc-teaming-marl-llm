@@ -488,9 +488,7 @@ class LBFRoles(ForagingEnv):
             actions.append(int(player_role._step(player_obs)))
         return super().step(actions)
 
-    def reset(self):
-        obs = super().reset()
-        
+    def reset(self):  
         self.field = np.zeros(self.field_size, np.int32)
         self.spawn_players(self.max_player_level)
         
@@ -503,7 +501,9 @@ class LBFRoles(ForagingEnv):
         self._game_over = False
         self._gen_valid_moves()
         
-        return obs
+        
+        nobs, _, _, _ = self._make_gym_obs()
+        return nobs
 
 
 policy_mapping_dict = {
