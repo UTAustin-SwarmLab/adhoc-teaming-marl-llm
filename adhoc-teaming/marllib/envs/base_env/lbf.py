@@ -23,6 +23,7 @@
 from lbforaging.foraging import ForagingEnv
 from ray.rllib.env.multi_agent_env import MultiAgentEnv
 from gym.spaces import Dict as GymDict, Discrete, Box
+import numpy as np
 
 policy_mapping_dict = {
     "all_scenario": {
@@ -32,6 +33,23 @@ policy_mapping_dict = {
         "one_agent_one_policy": True,
     },
 }
+
+class ForagingEnvHard(ForagingEnv):
+    def reset(self):
+        self.field = np.zeros(self.field_size, np.int32)
+        self.spawn_players(self.max_player_level)
+        
+        player_levels = sorted([player.level for player in self.players])
+
+        self.spawn_food(
+            self.max_food, max_level=sum(player_levels)
+        )
+        self.current_step = 0
+        self._game_over = False
+        self._gen_valid_moves()
+        
+        nobs, _, _, _ = self._make_gym_obs()
+        return nobs
 
 class RLlibLBF(MultiAgentEnv):
 
