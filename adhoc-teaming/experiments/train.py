@@ -8,6 +8,7 @@ from envs import *
 from argparse import ArgumentParser
 import yaml
 import os
+from envs import *
 
 def parse_args():
     parser = ArgumentParser(description='Image Classification with CLIP')
