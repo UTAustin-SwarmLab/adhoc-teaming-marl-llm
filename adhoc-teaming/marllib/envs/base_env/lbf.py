@@ -35,6 +35,10 @@ policy_mapping_dict = {
 }
 
 class ForagingEnvHard(ForagingEnv):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+    
     def reset(self):
         self.field = np.zeros(self.field_size, np.int32)
         self.spawn_players(self.max_player_level)
@@ -51,6 +55,34 @@ class ForagingEnvHard(ForagingEnv):
         nobs, _, _, _ = self._make_gym_obs()
         return nobs
 
+    def spawn_food(self, max_food, max_level):
+        food_count = 0
+        attempts = 0
+        min_level = max_level if self.force_coop else 1
+
+        while food_count < max_food and attempts < 1000:
+            attempts += 1
+            row = self.np_random.randint(1, self.rows - 1)
+            col = self.np_random.randint(1, self.cols - 1)
+
+            # check if it has neighbors:
+            if (
+                self.neighborhood(row, col).sum() > 0
+                or self.neighborhood(row, col, distance=2, ignore_diag=True) > 0
+                or not self._is_empty_location(row, col)
+            ):
+                continue
+
+            self.field[row, col] = (
+                min_level
+                if min_level == max_level
+                # ! this is excluding food of level `max_level` but is kept for
+                # ! consistency with prior LBF versions
+                else self.np_random.randint(min_level, max_level)
+            )
+            food_count += 1
+        self._food_spawned = self.field.sum()
+
 class RLlibLBF(MultiAgentEnv):
 
     def __init__(self, env_config):
@@ -60,7 +92,7 @@ class RLlibLBF(MultiAgentEnv):
         field_size_x = env_config.pop("field_size_x", None)
 
         env_config["field_size"] = (field_size_y, field_size_x)
-        self.env = ForagingEnv(**env_config)
+        self.env = ForagingEnvHard(**env_config)
 
         self.action_space = self.env.action_space[0]
         self.observation_space = GymDict({"obs": Box(
