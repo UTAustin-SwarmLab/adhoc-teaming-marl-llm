@@ -46,7 +46,7 @@ if __name__ == '__main__':
         
         print(yaml_file)
         env_config = yaml_file['env_args']
-        map_name = env_config['map_name']
+        map_name = env_config['map_name'] + args.tag
         
     
     # initialize env
