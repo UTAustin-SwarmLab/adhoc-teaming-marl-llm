@@ -301,8 +301,7 @@ class RiskTaker(AgentRoles):
     def _step(self, observation):
         for player_obs in observation.players:
             if player_obs.is_self:            
-                if not self.target:
-                    self.target = self._find_high_value_target(observation, player_obs)
+                self.target = self._find_high_value_target(observation, player_obs)
 
                 if self.target:
                     action = self._move_towards(player_obs.position, self.target)
@@ -381,14 +380,15 @@ class RiskTaker(AgentRoles):
 class StrategicScout(RiskTaker): 
     def __init__(self):
         super().__init__()
+        self.target = None
         self.wait_steps = 0  
 
     def _step(self, observation):
         for player_obs in observation.players:
             if player_obs.is_self:            
-                target = self._find_promising_target(observation, player_obs)
+                self.target = self._find_promising_target(observation, player_obs)
 
-                if target:
+                if self.target:
                     action = self._move_towards(player_obs.position, self.target)
                     self.wait_steps += 1
 
