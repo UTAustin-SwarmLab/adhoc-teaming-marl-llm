@@ -24,6 +24,10 @@ def parse_args():
         action='store_true',
         help='Whether to use original version or roles version of the environment')
     
+    parser.add_argument(
+        '--tag',
+        default='v1',
+        help='Tag for the experiment')
     return  parser.parse_args()
     
     
@@ -32,7 +36,8 @@ if __name__ == '__main__':
     args = parse_args()
     
     if args.env == 'lbf':
-        env_name = 'lbf' if not args.roles else 'lbf_roles'
+        env_name = 'lbf' if not args.roles else 'lbfroles'
+        print("Using environment: ", env_name)
         config_path = 'experiments/lbf_config.yaml'
         
         with open(config_path, "r") as f:
@@ -57,6 +62,6 @@ if __name__ == '__main__':
     mappo.fit(env, model, stop={'timesteps_total': 10000000},
               local_mode=True, 
               num_gpus=1,
-              num_workers=8,
+              num_workers=16,
               share_policy='all',
               checkpoint_freq=50)
