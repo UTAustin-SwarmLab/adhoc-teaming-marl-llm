@@ -45,8 +45,9 @@ class ForagingEnvHard(ForagingEnv):
         
         player_levels = sorted([player.level for player in self.players])
 
+        num_players = len(self.players)
         self.spawn_food(
-            self.max_food, max_level=sum(player_levels)
+            self.max_food, max_level=sum(player_levels[:num_players // 2])
         )
         self.current_step = 0
         self._game_over = False
