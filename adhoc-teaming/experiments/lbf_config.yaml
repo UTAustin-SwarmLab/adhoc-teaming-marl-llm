@@ -1,12 +1,12 @@
 env: lbf
 
 env_args:
-  map_name: lbf-20x20-10p-25f-mp5
-  players: 10
-  field_size_x: 20
-  field_size_y: 20
-  max_food: 25
-  sight: 5
+  map_name: lbf-10x10-5p-10f-mp5
+  players: 4
+  field_size_x: 10
+  field_size_y: 10
+  max_food: 10
+  sight: 3
   force_coop: False
   max_episode_steps: 100
   max_player_level: 5
