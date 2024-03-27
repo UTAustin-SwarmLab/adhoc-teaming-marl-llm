@@ -84,7 +84,7 @@ if __name__ == '__main__':
                 format(run_folder, os.listdir('exp_results')))
         else:
             for run in os.listdir(run_folder):
-                if os.path.isfile(run):
+                if not os.path.isdir(run):
                     continue
                 last_ckpt = filter(os.path.isdir, os.listdir(run))[-1]
                 cp_num = int(last_ckpt.split('-')[1])
