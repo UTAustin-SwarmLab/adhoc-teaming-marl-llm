@@ -79,10 +79,13 @@ if __name__ == '__main__':
         run_name = '_'.join([args.algorithm, model_arch, map_name])
         run_folder = os.path.join('exp_results', run_name)
         recent_checkpoint = None
+
         if not os.path.exists(run_folder):
             raise FileNotFoundError("No checkpoint found {}, Only {} available".\
                 format(run_folder, os.listdir('exp_results')))
         else:
+            params_path = None
+            model_path = None
             for run in os.listdir(run_folder):
                 if not os.path.isdir(run):
                     continue
@@ -93,6 +96,9 @@ if __name__ == '__main__':
                     params_path = os.path.join(run_name, 'params.json')
                     model_path = os.path.join(run_name, f'checkpoint-{recent_checkpoint}')
 
+            if params_path is None or model_path is None:
+                raise FileNotFoundError("No checkpoint found in {}, Only {} available".\
+                    format(run_folder, os.listdir(run_folder)))
             restore_path={
                 'params_path': params_path,  # experiment configuration
                 'model_path': model_path
