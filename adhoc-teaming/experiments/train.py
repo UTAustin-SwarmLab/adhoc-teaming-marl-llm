@@ -76,7 +76,7 @@ if __name__ == '__main__':
     # start learning
     
     if args.restore:   
-        run_name = '_'.join([args.algorithm, model_arch, map_name, args.tag])
+        run_name = '_'.join([args.algorithm, model_arch, map_name])
         run_folder = os.path.join('exp_results', run_name)
         recent_checkpoint = None
         if not os.path.exists(run_folder):
