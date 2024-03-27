@@ -76,22 +76,29 @@ if __name__ == '__main__':
     # start learning
     
     if args.restore:   
-        run_name = '_'.join([args.algorithm, model_arch, map_name])
+        run_name = '_'.join([args.algorithm, model_arch, map_name, args.tag])
+        run_folder = os.path.join('exp_results', run_name)
         recent_checkpoint = None
-        for run in os.listdir(run_name):
-            last_ckpt = os.listdir(run)[-1]
-            cp_num = int(last_ckpt.split('-')[1])
-            if recent_checkpoint is None or cp_num > recent_checkpoint:
-                recent_checkpoint = cp_num
-                params_path = os.path.join(run_name, 'params.json')
-                model_path = os.path.join(run_name, f'checkpoint-{recent_checkpoint}')
+        if not os.path.exists(run_folder):
+            raise FileNotFoundError("No checkpoint found {}, Only {} available".\
+                format(run_folder, os.listdir('exp_results')))
+        else:
+            for run in os.listdir(run_folder):
+                last_ckpt = os.listdir(run)[-1]
+                cp_num = int(last_ckpt.split('-')[1])
+                if recent_checkpoint is None or cp_num > recent_checkpoint:
+                    recent_checkpoint = cp_num
+                    params_path = os.path.join(run_name, 'params.json')
+                    model_path = os.path.join(run_name, f'checkpoint-{recent_checkpoint}')
 
-        restore_path={'params_path': params_path,  # experiment configuration
-                    'model_path': model_path}
-        
-        print("Restoring from checkpoint: ", restore_path)
-        import time
-        time.sleep(1000)
+            restore_path={
+                'params_path': params_path,  # experiment configuration
+                'model_path': model_path
+            }
+            
+            print("Restoring from checkpoint: ", restore_path)
+            import time
+            time.sleep(1000)
     
     if args.algorithm == 'mappo':
         
