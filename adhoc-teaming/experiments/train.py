@@ -99,8 +99,8 @@ if __name__ == '__main__':
                 print("Checkpoint number: ", cp_num)
                 if recent_checkpoint is None or cp_num > recent_checkpoint:
                     recent_checkpoint = cp_num
-                    params_path = os.path.join(run_name, 'params.json')
-                    model_path = os.path.join(run_name, f'checkpoint-{recent_checkpoint}')
+                    params_path = os.path.join(run_ckpt_folder, 'params.json')
+                    model_path = os.path.join(run_ckpt_folder, f'checkpoint-{recent_checkpoint}')
 
             if params_path is None or model_path is None:
                 raise FileNotFoundError("No checkpoint found in {}, Only {} available".\
