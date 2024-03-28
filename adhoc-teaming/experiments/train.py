@@ -94,13 +94,13 @@ if __name__ == '__main__':
                 print("Peeking into run: ", run_ckpt_folder)
                 ckpts = filter(lambda f: os.path.isdir(os.path.join(run_ckpt_folder, f)),
                                         os.listdir(run_ckpt_folder))
-                ckpts_num = map(lambda f: int(f.split('_')[1]), ckpts)
-                cp_num = max(ckpts_num)
+                ckpts_num = map(lambda f: (int(f.split('_')[1],f)), ckpts)
+                cp_num = max(ckpts_num, key=lambda x: x[0])
                 print("Checkpoint number: ", cp_num)
-                if recent_checkpoint is None or cp_num > recent_checkpoint:
+                if recent_checkpoint is None or cp_num[0] > recent_checkpoint[0]:
                     recent_checkpoint = cp_num
                     params_path = os.path.join(run_ckpt_folder, 'params.json')
-                    model_path = os.path.join(run_ckpt_folder, f'checkpoint-{recent_checkpoint}')
+                    model_path = os.path.join(run_ckpt_folder, recent_checkpoint[1])
 
             if params_path is None or model_path is None:
                 raise FileNotFoundError("No checkpoint found in {}, Only {} available".\
