@@ -91,7 +91,10 @@ if __name__ == '__main__':
                 if not os.path.isdir(run_ckpt_folder):
                     continue
                 print("Peeking into run: ", run_ckpt_folder)
-                last_ckpt = list(filter(os.path.isdir, os.listdir(run_ckpt_folder)))[-1]
+                ckpts = filter(lambda f: os.path.isdir(os.path.join(run_ckpt_folder, f)),
+                                        os.listdir(run_ckpt_folder))
+                last_ckpt = list(ckpts)[-1]
+                
                 cp_num = int(last_ckpt.split('-')[1])
                 print("Checkpoint number: ", cp_num)
                 if recent_checkpoint is None or cp_num > recent_checkpoint:
