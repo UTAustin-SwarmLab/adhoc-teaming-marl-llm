@@ -95,7 +95,7 @@ if __name__ == '__main__':
                                         os.listdir(run_ckpt_folder))
                 last_ckpt = list(ckpts)[-1]
                 
-                cp_num = int(last_ckpt.split('-')[1])
+                cp_num = int(last_ckpt.split('_')[1])
                 print("Checkpoint number: ", cp_num)
                 if recent_checkpoint is None or cp_num > recent_checkpoint:
                     recent_checkpoint = cp_num
