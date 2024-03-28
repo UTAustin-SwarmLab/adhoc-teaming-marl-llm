@@ -75,6 +75,7 @@ if __name__ == '__main__':
     
     # start learning
     
+    restore_path = None
     if args.restore:   
         run_name = '_'.join([args.algorithm, model_arch, map_name])
         run_folder = os.path.join('exp_results', run_name)
@@ -121,6 +122,7 @@ if __name__ == '__main__':
                                           "encode_layer": model_enc_layers})    
         algorithm.fit(env, model, stop={'timesteps_total': 10000000},
                 local_mode=True, 
+                restore_path=restore_path,
                 num_gpus=1,
                 num_workers=16,
                 share_policy='all',
