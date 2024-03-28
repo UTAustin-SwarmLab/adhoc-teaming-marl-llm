@@ -93,9 +93,8 @@ if __name__ == '__main__':
                 print("Peeking into run: ", run_ckpt_folder)
                 ckpts = filter(lambda f: os.path.isdir(os.path.join(run_ckpt_folder, f)),
                                         os.listdir(run_ckpt_folder))
-                last_ckpt = list(ckpts)[-1]
-                
-                cp_num = int(last_ckpt.split('_')[1])
+                ckpts_num = map(lambda f: int(f.split('_')[1]), ckpts)
+                cp_num = max(ckpts_num)
                 print("Checkpoint number: ", cp_num)
                 if recent_checkpoint is None or cp_num > recent_checkpoint:
                     recent_checkpoint = cp_num
@@ -112,7 +111,6 @@ if __name__ == '__main__':
             
             print("Restoring from checkpoint: ", restore_path)
             import time
-            time.sleep(1000)
     
     if args.algorithm == 'mappo':
         
