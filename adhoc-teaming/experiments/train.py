@@ -90,6 +90,7 @@ if __name__ == '__main__':
                 run_ckpt_folder = os.path.join(run_folder, run)
                 if not os.path.isdir(run_ckpt_folder):
                     continue
+                print("Peeking into run: ", run_ckpt_folder)
                 last_ckpt = list(filter(os.path.isdir, os.listdir(run_ckpt_folder)))[-1]
                 cp_num = int(last_ckpt.split('-')[1])
                 print("Checkpoint number: ", cp_num)
