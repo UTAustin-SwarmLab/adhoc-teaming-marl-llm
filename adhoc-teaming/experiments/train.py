@@ -94,13 +94,20 @@ if __name__ == '__main__':
                 print("Peeking into run: ", run_ckpt_folder)
                 ckpts = filter(lambda f: os.path.isdir(os.path.join(run_ckpt_folder, f)),
                                         os.listdir(run_ckpt_folder))
-                ckpts_num = map(lambda f: (int(f.split('_')[1]),f), ckpts)
+                
+                ckpts = list(filter(lambda f: f.startswith('checkpoint_'), ckpts))
+                if len(ckpts) == 0:
+                    continue
+                ckpts_num = list(map(lambda f: (int(f.split('_')[1]),f), ckpts))
+
                 cp_num = max(ckpts_num, key=lambda x: x[0])
                 print("Checkpoint number: ", cp_num)
                 if recent_checkpoint is None or cp_num[0] > recent_checkpoint[0]:
                     recent_checkpoint = cp_num
                     params_path = os.path.join(run_ckpt_folder, 'params.json')
-                    model_path = os.path.join(run_ckpt_folder, recent_checkpoint[1])
+                    model_path = os.path.join(run_ckpt_folder, 
+                                              recent_checkpoint[1],
+                                              'checkpoint-{}'.format(cp_num[0]))
 
             if params_path is None or model_path is None:
                 raise FileNotFoundError("No checkpoint found in {}, Only {} available".\
@@ -119,12 +126,12 @@ if __name__ == '__main__':
         algorithm = marl.algos.mappo(hyperparam_source="test") 
             # customize model
         model = marl.build_model(env, algorithm, {"core_arch": model_arch,
-                                          "encode_layer": model_enc_layers})    
+                                          "encode_layer": model_enc_layers})  
         algorithm.fit(env, model, stop={'timesteps_total': 10000000},
                 local_mode=True, 
                 restore_path=restore_path,
                 num_gpus=1,
-                num_workers=16,
+                num_workers=8,
                 share_policy='all',
                 checkpoint_freq=50)
     else:
