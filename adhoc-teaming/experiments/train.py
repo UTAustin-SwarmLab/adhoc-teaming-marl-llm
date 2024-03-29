@@ -75,7 +75,10 @@ if __name__ == '__main__':
     
     # start learning
     
-    restore_path = None
+    restore_path = {
+                'params_path': '',  # experiment configuration
+                'model_path': ''
+            }
     if args.restore:   
         run_name = '_'.join([args.algorithm, model_arch, map_name])
         run_folder = os.path.join('exp_results', run_name)
