@@ -41,6 +41,12 @@ def parse_args():
         default='mappo',
         choices=['mappo', 'coma', 'qmix'],
         help='Model architecture to use')
+    parser.add_argument(
+        '--steps',
+        default=10000000,
+        type=int,
+        help='Number of steps to train the model')
+    
     
     return  parser.parse_args()
     
@@ -127,7 +133,7 @@ def run_training(args):
             # customize model
         model = marl.build_model(env, algorithm, {"core_arch": model_arch,
                                           "encode_layer": model_enc_layers})  
-        algorithm.fit(env, model, stop={'timesteps_total': 10000000},
+        algorithm.fit(env, model, stop={'timesteps_total': args.steps},
                 local_mode=True, 
                 restore_path=restore_path,
                 num_gpus=1,
