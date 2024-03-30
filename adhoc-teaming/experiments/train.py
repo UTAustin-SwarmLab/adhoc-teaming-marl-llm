@@ -44,11 +44,8 @@ def parse_args():
     
     return  parser.parse_args()
     
-    
-if __name__ == '__main__':
-    
-    args = parse_args()
-    
+
+def run_training(args):
     if args.env == 'lbf':
         env_name = 'lbf' if not args.roles else 'lbfroles'
         print("Using environment: ", env_name)
@@ -139,3 +136,22 @@ if __name__ == '__main__':
                 checkpoint_freq=50)
     else:
         raise NotImplementedError("Algorithm not supported yet")
+    
+    
+if __name__ == '__main__':
+    
+    args = parse_args()
+    
+    flag = False
+    
+    while not flag:
+        try:
+            run_training(args)
+            flag = True
+        except Exception as e:
+            print(e)
+            print("Training failed: Restarting and Restoring...")
+            args.restore = True
+            
+    
+    
