@@ -9,6 +9,7 @@ from argparse import ArgumentParser
 import yaml
 import os
 from envs import *
+import ray
 
 def parse_args():
     parser = ArgumentParser(description='Image Classification with CLIP')
@@ -158,6 +159,7 @@ if __name__ == '__main__':
             print(e)
             print("Training failed: Restarting and Restoring...")
             args.restore = True
+            ray.shutdown()
             
     
     
