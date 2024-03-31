@@ -160,6 +160,8 @@ if __name__ == '__main__':
             print("Training failed: Restarting and Restoring...")
             args.restore = True
             ray.shutdown()
+            import time
+            time.sleep(10)
             
     
     
