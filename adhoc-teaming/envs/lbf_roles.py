@@ -480,6 +480,7 @@ class LBFRoles(ForagingEnv):
 
     def step(self, action_dict):
         actions = []
+        print(action_dict)
         for player, (agent_id, action_role) in zip(self.players,action_dict.items()):
             player_obs = self._make_obs(player)
             player_role = self.roles[self.role_keys[action_role]]
@@ -561,6 +562,8 @@ class RLlibLBFRoles(MultiAgentEnv):
                 "obs": o[pos]
             }
             done_flag = d[pos] or done_flag
+
+        
         dones = {"__all__": done_flag}
         return obs, rewards, dones, infos
 
