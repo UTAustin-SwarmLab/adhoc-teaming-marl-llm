@@ -1,0 +1,21 @@
+env: lbfroles
+
+env_args:
+  map_name: lbf-15x15-8p-40f-mp5
+  players: 8
+  field_size_x: 15
+  field_size_y: 15
+  max_food: 40
+  sight: 3
+  force_coop: False
+  max_episode_steps: 125
+  max_player_level: 5
+
+mask_flag: False
+global_state_flag: False
+opp_action_in_cc: True
+agent_level_batch_update: True
+
+model_params: 
+  arch: mlp
+  encode_layer: 128-128

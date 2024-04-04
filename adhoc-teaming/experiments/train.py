@@ -56,7 +56,7 @@ def run_training(args):
     if args.env == 'lbf':
         env_name = 'lbf' if not args.roles else 'lbfroles'
         print("Using environment: ", env_name)
-        config_path = 'experiments/lbf_config.yaml'
+        config_path = 'experiments/lbf_config.yaml' if not args.roles else 'experiments/lbf_roles_config.yaml'
         
         with open(config_path, "r") as f:
             yaml_file = yaml.load(f, Loader=yaml.FullLoader)
@@ -67,9 +67,6 @@ def run_training(args):
         map_name = env_config['map_name'] + args.tag
         model_arch = yaml_file['model_params']['arch']
         model_enc_layers = yaml_file['model_params']['encode_layer']
-    
-
-        
     
     # initialize env
     config_path = os.path.join("../../", config_path)
@@ -153,6 +150,8 @@ if __name__ == '__main__':
     
     while not flag:
         try:
+            if ray.is_initialized():
+               ray.shutdown() 
             run_training(args)
             flag = True
         except Exception as e:
@@ -160,8 +159,9 @@ if __name__ == '__main__':
             print("Training failed: Restarting and Restoring...")
             args.restore = True
             ray.shutdown()
-            import time
-            time.sleep(10)
+            while ray.is_initialized():
+                import time
+                time.sleep(5)
             
     
     
