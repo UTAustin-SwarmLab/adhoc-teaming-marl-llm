@@ -522,7 +522,7 @@ class RLlibLBFRoles(MultiAgentEnv):
         field_size_x = env_config.pop("field_size_x", None)
 
         env_config["field_size"] = (field_size_y, field_size_x)
-        self.env = LBFRoles(**env_config)
+        self.env = LBFRoles(env_config)
 
         self.action_space = self.env.action_space[0]
         self.observation_space = GymDict({"obs": Box(
@@ -548,6 +548,7 @@ class RLlibLBFRoles(MultiAgentEnv):
 
     def step(self, action_dict):
         actions = []
+        print(actions)
         for key, value in sorted(action_dict.items()):
             actions.append(value)
         o, r, d, i = self.env.step(tuple(actions))
