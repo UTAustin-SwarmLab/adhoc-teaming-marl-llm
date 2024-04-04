@@ -480,7 +480,7 @@ class LBFRoles(ForagingEnv):
 
     def step(self, action_dict):
         actions = []
-        print(action_dict)
+        #print(action_dict)
         for player, action_role in zip(self.players,action_dict):
             player_obs = self._make_obs(player)
             player_role = self.roles[self.role_keys[action_role]]
