@@ -548,7 +548,7 @@ class RLlibLBFRoles(MultiAgentEnv):
 
     def step(self, action_dict):
         actions = []
-        print(actions)
+        # print(actions)
         for key, value in sorted(action_dict.items()):
             actions.append(value)
         o, r, d, i = self.env.step(tuple(actions))
