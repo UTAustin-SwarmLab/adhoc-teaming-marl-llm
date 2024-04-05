@@ -25,12 +25,7 @@ def parse_args():
         default=False,
         choices=['original', 'roles', 'hybrid'],
         help='Whether to use original version or roles or hybrid version of the environment')
-    parser.add_argument(
-        '--hybrid',
-        default=False,
-        action='store_true',
-        help='Whether to use original version or roles version of the environment')
-    
+
     parser.add_argument(
         '--tag',
         default='v1',
@@ -61,11 +56,11 @@ def run_training(args):
     if args.env == 'lbf':
         env_name = 'lbf' if not args.roles else 'lbfroles'
         print("Using environment: ", env_name)
-        if args.choices == 'original':
+        if args.type == 'original':
             config_path = 'experiments/lbf_config.yaml'
-        elif args.choices == 'roles':
+        elif args.type == 'roles':
             config_path = 'experiments/lbf_roles_config.yaml'
-        elif args.choices == 'hybrid':
+        elif args.type == 'hybrid':
             config_path = 'experiments/lbf_hybrid_config.yaml'
         
         with open(config_path, "r") as f:
