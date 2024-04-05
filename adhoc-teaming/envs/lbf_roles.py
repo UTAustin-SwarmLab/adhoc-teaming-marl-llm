@@ -475,7 +475,7 @@ class LBFRoles(ForagingEnv):
                 "reactive_helper": ReactiveHelper(),
                 "risk_taker": RiskTaker()
             }
-        if config[hybrid]:
+        if hybrid:
             self.action_space = gym.spaces.Tuple(tuple([gym.spaces.Discrete(11)]) * len(self.players))
         else:
             self.action_space = gym.spaces.Tuple(tuple([gym.spaces.Discrete(5)] * len(self.players)))
