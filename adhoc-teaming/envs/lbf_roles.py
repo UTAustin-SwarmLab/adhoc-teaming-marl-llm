@@ -466,25 +466,32 @@ class ReactiveHelper(AgentRoles):
         return total_level >= observation.field[food_x, food_y]
 
 class LBFRoles(ForagingEnv):
-    def __init__(self, config):
+    def __init__(self, config, hybrid=False):
         super().__init__(**config)
         self.roles = {
-            "prospector": Prospector(),
-            "opportunist": Opportunist(),
-            "strategic_scout": StrategicScout(),
-            "reactive_helper": ReactiveHelper(),
-            "risk_taker": RiskTaker()
-        }
+                "prospector": Prospector(),
+                "opportunist": Opportunist(),
+                "strategic_scout": StrategicScout(),
+                "reactive_helper": ReactiveHelper(),
+                "risk_taker": RiskTaker()
+            }
+        if config[hybrid]:
+            self.action_space = gym.spaces.Tuple(tuple([gym.spaces.Discrete(11)]) * len(self.players))
+        else:
+            self.action_space = gym.spaces.Tuple(tuple([gym.spaces.Discrete(5)] * len(self.players)))
         self.role_keys = list(self.roles.keys())
-        self.action_space = gym.spaces.Tuple(tuple([gym.spaces.Discrete(5)] * len(self.players)))
+
 
     def step(self, action_dict):
         actions = []
         #print(action_dict)
         for player, action_role in zip(self.players,action_dict):
             player_obs = self._make_obs(player)
-            player_role = self.roles[self.role_keys[action_role]]
-            actions.append(int(player_role._step(player_obs)))
+            if action_role < 5:
+                player_role = self.roles[self.role_keys[action_role]]
+                actions.append(int(player_role._step(player_obs)))
+            else:
+                actions.append(action_role)
         return super().step(actions)
 
     def reset(self):  
@@ -522,7 +529,8 @@ class RLlibLBFRoles(MultiAgentEnv):
         field_size_x = env_config.pop("field_size_x", None)
 
         env_config["field_size"] = (field_size_y, field_size_x)
-        self.env = LBFRoles(env_config)
+        hybrid = env_config.pop("hybrid", False)
+        self.env = LBFRoles(env_config, hybrid=hybrid)
 
         self.action_space = self.env.action_space[0]
         self.observation_space = GymDict({"obs": Box(
@@ -535,6 +543,7 @@ class RLlibLBFRoles(MultiAgentEnv):
         env_config["field_size_y"] = field_size_y
         env_config["field_size_x"] = field_size_x
         env_config["map_name"] = map_name
+        env_config["hybrid"] = hybrid
         self.env_config = env_config
 
     def reset(self):
