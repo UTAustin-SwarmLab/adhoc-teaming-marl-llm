@@ -21,7 +21,12 @@ def parse_args():
         help='Environment to train on')
 
     parser.add_argument(
-        '--roles',
+        '--type',
+        default=False,
+        choices=['original', 'roles', 'hybrid'],
+        help='Whether to use original version or roles or hybrid version of the environment')
+    parser.add_argument(
+        '--hybrid',
         default=False,
         action='store_true',
         help='Whether to use original version or roles version of the environment')
@@ -56,7 +61,12 @@ def run_training(args):
     if args.env == 'lbf':
         env_name = 'lbf' if not args.roles else 'lbfroles'
         print("Using environment: ", env_name)
-        config_path = 'experiments/lbf_config.yaml' if not args.roles else 'experiments/lbf_roles_config.yaml'
+        if args.choices == 'original':
+            config_path = 'experiments/lbf_config.yaml'
+        elif args.choices == 'roles':
+            config_path = 'experiments/lbf_roles_config.yaml'
+        elif args.choices == 'hybrid':
+            config_path = 'experiments/lbf_hybrid_config.yaml'
         
         with open(config_path, "r") as f:
             yaml_file = yaml.load(f, Loader=yaml.FullLoader)
@@ -67,6 +77,7 @@ def run_training(args):
         map_name = env_config['map_name'] + args.tag
         model_arch = yaml_file['model_params']['arch']
         model_enc_layers = yaml_file['model_params']['encode_layer']
+
     
     # initialize env
     config_path = os.path.join("../../", config_path)
