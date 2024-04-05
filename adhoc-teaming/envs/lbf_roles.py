@@ -491,7 +491,7 @@ class LBFRoles(ForagingEnv):
                 player_role = self.roles[self.role_keys[action_role]]
                 actions.append(int(player_role._step(player_obs)))
             else:
-                actions.append(action_role)
+                actions.append(action_role-5)
         return super().step(actions)
 
     def reset(self):  
