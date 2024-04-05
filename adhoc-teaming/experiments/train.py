@@ -53,14 +53,16 @@ def parse_args():
     
 
 def run_training(args):
-    if args.env == 'lbf':
-        env_name = 'lbf' if not args.roles else 'lbfroles'
+
         print("Using environment: ", env_name)
         if args.type == 'original':
+            env_name = 'lbf'
             config_path = 'experiments/lbf_config.yaml'
         elif args.type == 'roles':
+            env_name = 'lbfroles'
             config_path = 'experiments/lbf_roles_config.yaml'
         elif args.type == 'hybrid':
+            env_name = 'lbfroles'
             config_path = 'experiments/lbf_hybrid_config.yaml'
         
         with open(config_path, "r") as f:
