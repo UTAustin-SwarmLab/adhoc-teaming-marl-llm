@@ -54,7 +54,7 @@ def parse_args():
 
 def run_training(args):
     if args.env == 'lbf':
-        print("Using environment: ", env_name)
+
         if args.type == 'original':
             env_name = 'lbf'
             config_path = 'experiments/lbf_config.yaml'
@@ -66,7 +66,7 @@ def run_training(args):
             config_path = 'experiments/lbf_hybrid_config.yaml'
         else:
             raise ValueError("Invalid environment type")
-        
+        print("Using environment: ", env_name)
         with open(config_path, "r") as f:
             yaml_file = yaml.load(f, Loader=yaml.FullLoader)
             f.close()
