@@ -53,7 +53,7 @@ def parse_args():
     
 
 def run_training(args):
-
+    if args.env == 'lbf':
         print("Using environment: ", env_name)
         if args.type == 'original':
             env_name = 'lbf'
@@ -64,6 +64,8 @@ def run_training(args):
         elif args.type == 'hybrid':
             env_name = 'lbfroles'
             config_path = 'experiments/lbf_hybrid_config.yaml'
+        else:
+            raise ValueError("Invalid environment type")
         
         with open(config_path, "r") as f:
             yaml_file = yaml.load(f, Loader=yaml.FullLoader)
@@ -75,7 +77,7 @@ def run_training(args):
         model_arch = yaml_file['model_params']['arch']
         model_enc_layers = yaml_file['model_params']['encode_layer']
 
-    
+ 
     # initialize env
     config_path = os.path.join("../../", config_path)
     env = marl.make_env(environment_name=env_name, 
