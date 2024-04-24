@@ -1,4 +1,4 @@
-env: lbfroles
+env: lbf
 
 env_args:
   map_name: lbf-15x15-8p-40f-mp5

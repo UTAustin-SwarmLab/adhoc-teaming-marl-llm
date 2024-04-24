@@ -10,7 +10,7 @@ import yaml
 import os
 from envs import *
 import ray
-
+import traceback
 def parse_args():
     parser = ArgumentParser(description='Image Classification with CLIP')
 
@@ -22,7 +22,7 @@ def parse_args():
 
     parser.add_argument(
         '--type',
-        default=False,
+        default='original',
         choices=['original', 'roles', 'hybrid'],
         help='Whether to use original version or roles or hybrid version of the environment')
 
@@ -166,6 +166,7 @@ if __name__ == '__main__':
             flag = True
         except Exception as e:
             print(e)
+            print (traceback.format_exc())
             print("Training failed: Restarting and Restoring...")
             args.restore = True
             ray.shutdown()
