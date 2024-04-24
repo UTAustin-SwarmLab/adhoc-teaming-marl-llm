@@ -11,3 +11,4 @@ RUN apt-get update -y && apt-get install -y curl libssl-dev openssl libopenblas-
 RUN pip install --upgrade pip && pip install marllib
 
 RUN pip install protobuf==3.17 && pip install gym==0.20.0
+RUN apt-get update && apt-get install -y nvidia-container-toolkit
