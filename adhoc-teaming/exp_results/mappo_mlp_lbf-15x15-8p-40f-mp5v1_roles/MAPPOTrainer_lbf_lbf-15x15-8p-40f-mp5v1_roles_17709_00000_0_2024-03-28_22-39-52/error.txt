@@ -1,0 +1,68 @@
+Failure # 1 (occurred at 2024-03-28_23-11-02)
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/trial_runner.py", line 890, in _process_trial
+    results = self.trial_executor.fetch_result(trial)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/ray_trial_executor.py", line 788, in fetch_result
+    result = ray.get(trial_future[0], timeout=DEFAULT_GET_TIMEOUT)
+  File "/opt/conda/lib/python3.8/site-packages/ray/_private/client_mode_hook.py", line 105, in wrapper
+    return func(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/ray/worker.py", line 1625, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(RayOutOfMemoryError): [36mray::MAPPOTrainer.train()[39m (pid=64, ip=172.17.0.2, repr=MAPPOTrainer)
+  File "/opt/conda/lib/python3.8/site-packages/ray/rllib/agents/trainer.py", line 679, in train
+    raise e
+  File "/opt/conda/lib/python3.8/site-packages/ray/rllib/agents/trainer.py", line 668, in train
+    result = Trainable.train(self)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/trainable.py", line 283, in train
+    result = self.step()
+  File "/opt/conda/lib/python3.8/site-packages/ray/rllib/agents/trainer_template.py", line 206, in step
+    step_results = next(self.train_exec_impl)
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 756, in __next__
+    return next(self.built_iterator)
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 843, in apply_filter
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 843, in apply_filter
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  [Previous line repeated 1 more time]
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 876, in apply_flatten
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 783, in apply_foreach
+    for item in it:
+  [Previous line repeated 1 more time]
+  File "/opt/conda/lib/python3.8/site-packages/ray/util/iter.py", line 471, in base_iterator
+    yield ray.get(futures, timeout=timeout)
+ray.exceptions.RayTaskError(RayOutOfMemoryError): [36mray::RolloutWorker.par_iter_next()[39m (pid=64, ip=172.17.0.2, repr=<ray.rllib.evaluation.rollout_worker.modify_class.<locals>.Class object at 0x7f39acef6d00>)
+ray._private.memory_monitor.RayOutOfMemoryError: More than 95% of the memory on node e792758e7017 is used (29.71 / 31.25 GB). The top 10 memory consumers are:
+
+PID	MEM	COMMAND
+64	27.28GiB	python3 experiments/train.py --env lbf --roles --tag v1_roles --restore
+198	0.03GiB	ray::IDLE
+197	0.03GiB	ray::IDLE
+248	0.03GiB	ray::IDLE
+246	0.03GiB	ray::IDLE
+244	0.03GiB	ray::IDLE
+241	0.03GiB	ray::IDLE
+199	0.03GiB	ray::IDLE
+196	0.03GiB	ray::IDLE
+191	0.03GiB	ray::IDLE
+
+In addition, up to 0.0 GiB of shared memory is currently being used by the Ray object store.
+---
+--- Tip: Use the `ray memory` command to list active objects in the cluster.
+--- To disable OOM exceptions, set RAY_DISABLE_MEMORY_MONITOR=1.
+---
+

@@ -1,0 +1,16 @@
+Failure # 1 (occurred at 2024-03-28_00-20-35)
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/ray_trial_executor.py", line 611, in start_trial
+    return self._start_trial(trial, checkpoint, train=train)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/ray_trial_executor.py", line 491, in _start_trial
+    self.restore(trial, checkpoint)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/ray_trial_executor.py", line 1082, in restore
+    obj = TrainableUtil.checkpoint_to_object(value)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/utils/trainable.py", line 73, in checkpoint_to_object
+    data_dict = TrainableUtil.pickle_checkpoint(checkpoint_path)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/utils/trainable.py", line 54, in pickle_checkpoint
+    checkpoint_dir = TrainableUtil.find_checkpoint_dir(checkpoint_path)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/utils/trainable.py", line 88, in find_checkpoint_dir
+    raise FileNotFoundError("Path does not exist", checkpoint_path)
+FileNotFoundError: [Errno Path does not exist] /code/adhoc-teaming/exp_results/mappo_mlp_lbf-15x15-8p-40f-mp5v1_roles/MAPPOTrainer_lbf_lbf-15x15-8p-40f-mp5v1_roles_cf6b8_00000_0_2024-03-26_20-38-32/checkpoint-2150
+

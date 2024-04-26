@@ -1,0 +1,31 @@
+Failure # 1 (occurred at 2024-03-31_04-32-43)
+Traceback (most recent call last):
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/trial_runner.py", line 1080, in _process_trial_save
+    results = self.trial_executor.fetch_result(trial)
+  File "/opt/conda/lib/python3.8/site-packages/ray/tune/ray_trial_executor.py", line 788, in fetch_result
+    result = ray.get(trial_future[0], timeout=DEFAULT_GET_TIMEOUT)
+  File "/opt/conda/lib/python3.8/site-packages/ray/_private/client_mode_hook.py", line 105, in wrapper
+    return func(*args, **kwargs)
+  File "/opt/conda/lib/python3.8/site-packages/ray/worker.py", line 1625, in get
+    raise value.as_instanceof_cause()
+ray.exceptions.RayTaskError(RayOutOfMemoryError): [36mray::MAPPOTrainer.save()[39m (pid=1049502, ip=172.17.0.2, repr=MAPPOTrainer)
+ray._private.memory_monitor.RayOutOfMemoryError: More than 95% of the memory on node e792758e7017 is used (30.51 / 31.25 GB). The top 10 memory consumers are:
+
+PID	MEM	COMMAND
+1049502	27.51GiB	python3 experiments/train.py --env lbf --tag v1_noroles --steps 25000000 --restore
+1049549	0.04GiB	/opt/conda/lib/python3.8/site-packages/ray/core/src/ray/thirdparty/redis/src/redis-server *:10663
+1049626	0.04GiB	ray::IDLE
+1049630	0.04GiB	ray::IDLE
+1049677	0.04GiB	ray::IDLE
+1049684	0.04GiB	ray::IDLE
+1049625	0.04GiB	ray::IDLE
+1049637	0.04GiB	ray::IDLE
+1049683	0.04GiB	ray::IDLE
+1049627	0.04GiB	ray::IDLE
+
+In addition, up to 0.0 GiB of shared memory is currently being used by the Ray object store.
+---
+--- Tip: Use the `ray memory` command to list active objects in the cluster.
+--- To disable OOM exceptions, set RAY_DISABLE_MEMORY_MONITOR=1.
+---
+
